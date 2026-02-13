@@ -49,32 +49,11 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {/* Back Button */}
-      {/* <div className="relative z-10 pt-8 px-6">
-        <Link 
-          href="/" 
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
-        </Link>
-      </div> */}
-
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-6 py-12">
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="text-center pt-20 mb-8">
-            {/* <div className="inline-flex items-center gap-3 justify-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-white" />
-              </div>
-              <div className="text-left">
-                <h1 className="font-heading text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                  Planly
-                </h1>
-                <p className="text-xs text-gray-400">Academic Planner</p>
-              </div>
-            </div> */}
+           
             <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
             <p className="text-gray-400 mt-2">Sign in to continue your academic journey</p>
           </div>
