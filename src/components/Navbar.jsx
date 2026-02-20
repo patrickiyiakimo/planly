@@ -84,11 +84,13 @@ export default function Navbar() {
               <div className="w-9 h-9 rounded-lg bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/20 group-hover:shadow-purple-600/30 transition-shadow">
                 <Calendar className="w-5 h-5 text-white" />
               </div>
+              <Link href="/" className="flex flex-col">
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-gray-900 tracking-tight">
                   Planly
                 </span>
               </div>
+              </Link>
             </button>
 
             {/* Desktop Navigation */}
