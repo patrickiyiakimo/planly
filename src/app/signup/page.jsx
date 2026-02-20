@@ -1,254 +1,282 @@
-// app/signup/page.js
 "use client";
 
 import { useState } from 'react';
+import { Eye, EyeOff, Mail, Lock, User, ArrowRight, CheckCircle2, Sparkles, GraduationCap, BookOpen, Clock, Star } from 'lucide-react';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles, Check, Lock, Mail, User, Calendar } from 'lucide-react';
 
-const SignupPage = () => {
+export default function SignupPage() {
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     password: '',
-    studentType: 'undergraduate',
+    university: '',
+    agreeTerms: false
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState(1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here
+    setIsLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsLoading(false);
+    setStep(2);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const features = [
+    { icon: BookOpen, text: "Unlimited subjects & tasks" },
+    { icon: Clock, text: "Smart deadline reminders" },
+    { icon: Star, text: "AI study recommendations" }
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-black to-black" />
-        
-        {/* Floating Particles */}
-        <div className="absolute inset-0">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-[1px] h-[1px] bg-white rounded-full animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                opacity: Math.random() * 0.5 + 0.2,
-              }}
-            />
-          ))}
+    <div className="min-h-screen bg-white flex">
+      {/* Left Side - Form */}
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 py-12">
+        <div className="w-full pt-20 max-w-md mx-auto">
+          {step === 1 ? (
+            <>
+              <div className="mb-8">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                  Start your free trial
+                </h1>
+                <p className="text-gray-600">
+                  Join 50,000+ students already organizing their academic life with Planly.
+                </p>
+              </div>
+
+              {/* Google Sign Up */}
+              <button className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors mb-6">
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+              </button>
+
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-200"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">Or continue with email</span>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                      placeholder="you@university.edu"
+                    />
+                  </div>
+                </div>
+
+                {/* University */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    University
+                  </label>
+                  <select
+                    value={formData.university}
+                    onChange={(e) => setFormData({...formData, university: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all bg-white"
+                  >
+                    <option value="">Select your university</option>
+                    <option value="unilag">University of Lagos</option>
+                    <option value="ui">University of Ibadan</option>
+                    <option value="oau">Obafemi Awolowo University</option>
+                    <option value="unizik">Nnamdi Azikiwe University</option>
+                    <option value="abu">Ahmadu Bello University</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                {/* Password */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={formData.password}
+                      onChange={(e) => setFormData({...formData, password: e.target.value})}
+                      className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  <p className="mt-1.5 text-xs text-gray-500">
+                    Must be at least 8 characters with a number and symbol
+                  </p>
+                </div>
+
+                {/* Terms */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    required
+                    checked={formData.agreeTerms}
+                    onChange={(e) => setFormData({...formData, agreeTerms: e.target.checked})}
+                    className="mt-1 w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                  />
+                  <label htmlFor="terms" className="text-sm text-gray-600">
+                    I agree to the{' '}
+                    <Link href="/terms" className="text-purple-600 hover:text-purple-700 font-medium">
+                      Terms of Service
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy" className="text-purple-600 hover:text-purple-700 font-medium">
+                      Privacy Policy
+                    </Link>
+                  </label>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-center gap-2 py-3.5 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-purple-200"
+                >
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      Create Free Account
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <p className="mt-6 text-center text-sm text-gray-600">
+                Already have an account?{' '}
+                <Link href="/login" className="text-purple-600 hover:text-purple-700 font-semibold">
+                  Log in
+                </Link>
+              </p>
+            </>
+          ) : (
+            /* Success State */
+            <div className="text-center py-12">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="w-10 h-10 text-green-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                Welcome to Planly, {formData.fullName.split(' ')[0]}!
+              </h2>
+              <p className="text-gray-600 mb-8">
+                Check your email to verify your account and get started with your free trial.
+              </p>
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition-colors"
+              >
+                Go to Dashboard
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-6 py-12">
-        <div className="w-full max-w-md">
-          {/* Logo */}
-          <div className="text-center pt-20 mb-8">
-          
-            <h2 className="text-2xl font-bold text-white">Create Your Account</h2>
-            <p className="text-gray-400 mt-2">Start your organized academic journey today</p>
-          </div>
+      {/* Right Side - Image (Desktop Only) */}
+      <div className="hidden lg:block lg:w-1/2 relative bg-gray-50">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=800&fit=crop"
+            alt="Professional student working productively on laptop in modern workspace"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-purple-900/20 to-transparent" />
+        </div>
 
-          {/* Form Container */}
-          <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-2xl border border-gray-800 p-6 md:p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Input */}
+        {/* Content Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-12 text-white">
+          <div className="max-w-md">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-5 h-5 text-purple-300" />
+              <span className="text-sm font-medium text-purple-200">Why students love Planly</span>
+            </div>
+            <blockquote className="text-2xl font-medium mb-6 leading-relaxed">
+              "Planly transformed how I manage my studies. I've never felt more organized and in control."
+            </blockquote>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">
+                SC
+              </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                    placeholder="John Doe"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Email Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                    placeholder="student@example.com"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Password Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Student Type */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  I am a
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {['undergraduate', 'graduate', 'high-school', 'other'].map((type) => (
-                    <label
-                      key={type}
-                      className={`flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-all ${
-                        formData.studentType === type
-                          ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border-indigo-500'
-                          : 'bg-gray-900/30 border-gray-800 hover:border-gray-700'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="studentType"
-                        value={type}
-                        checked={formData.studentType === type}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <span className="text-sm capitalize">
-                        {type.replace('-', ' ')}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Terms */}
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  required
-                  className="mt-1 w-4 h-4 bg-gray-900 border-gray-800 rounded focus:ring-indigo-500 focus:ring-offset-0"
-                />
-                <label htmlFor="terms" className="text-sm text-gray-400">
-                  I agree to the{' '}
-                  <Link href="/terms" className="text-indigo-400 hover:text-indigo-300">
-                    Terms of Service
-                  </Link>{' '}
-                  and{' '}
-                  <Link href="/privacy" className="text-indigo-400 hover:text-indigo-300">
-                    Privacy Policy
-                  </Link>
-                </label>
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] transition-all duration-300 flex items-center justify-center gap-2 group"
-              >
-                <Sparkles className="w-5 h-5" />
-                Create Free Account
-                <Check className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            </form>
-
-            {/* Divider */}
-            <div className="relative my-8">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-800"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-transparent text-gray-500">Or continue with</span>
+                <p className="font-semibold">Sarah Chen</p>
+                <p className="text-sm text-purple-200">Computer Science, Stanford</p>
               </div>
             </div>
 
-            {/* Social Login */}
-            <div className="space-y-3">
-              <button
-                type="button"
-                className="w-full py-3 bg-gray-900/50 border border-gray-800 text-white rounded-xl hover:bg-gray-800/50 transition-all flex items-center justify-center gap-3"
-              >
-                <div className="w-5 h-5">
-                  {/* Google Icon */}
-                  <svg className="w-5 h-5" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                  </svg>
+            {/* Feature Pills */}
+            <div className="flex flex-wrap gap-3 mt-8">
+              {features.map((feature, index) => (
+                <div key={index} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                  <feature.icon className="w-4 h-4 text-purple-300" />
+                  <span className="text-sm font-medium">{feature.text}</span>
                 </div>
-                Sign up with Google
-              </button>
-
-              <button
-                type="button"
-                className="w-full py-3 bg-gray-900/50 border border-gray-800 text-white rounded-xl hover:bg-gray-800/50 transition-all flex items-center justify-center gap-3"
-              >
-                <div className="w-5 h-5">
-                  {/* GitHub Icon */}
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-                  </svg>
-                </div>
-                Sign up with GitHub
-              </button>
+              ))}
             </div>
-
-            {/* Login Link */}
-            <p className="text-center text-gray-400 mt-8 text-sm">
-              Already have an account?{' '}
-              <Link href="/login" className="text-indigo-400 hover:text-indigo-300 font-medium">
-                Sign in
-              </Link>
-            </p>
           </div>
+        </div>
 
-          {/* Features List */}
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            {[
-              'Free 14-day trial',
-              'No credit card needed',
-              'Cancel anytime',
-              '24/7 Support',
-            ].map((feature, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-500" />
-                <span className="text-sm text-gray-400">{feature}</span>
-              </div>
-            ))}
+        {/* Stats Bar */}
+        <div className="absolute top-8 right-8 flex gap-6">
+          <div className="text-center px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+            <p className="text-2xl font-bold">50K+</p>
+            <p className="text-xs text-purple-200">Students</p>
+          </div>
+          <div className="text-center px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
+            <p className="text-2xl font-bold">4.9</p>
+            <p className="text-xs text-purple-200">Rating</p>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default SignupPage;
+}

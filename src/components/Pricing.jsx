@@ -1,445 +1,316 @@
-// components/Pricing.js
 "use client";
 
-import { Check, Star, Zap, Crown, Sparkles, Target, Shield, Brain, FileText, Rocket, TrendingUp, Gift } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Check, X, Sparkles, Zap, Crown, HelpCircle, ArrowRight, Shield, Clock, Gift } from 'lucide-react';
+import Link from 'next/link';
 
-const Pricing = () => {
-  const [isAnnual, setIsAnnual] = useState(false);
+export default function Pricing() {
+  const [isYearly, setIsYearly] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const plans = [
     {
-      name: "Basic Plan",
-      tagline: "Perfect for getting started",
-      price: 1500,
-      period: isAnnual ? "/year" : "/month",
-      description: "Essential tools for academic organization",
+      name: "Starter",
+      description: "Perfect for getting started",
+      monthlyPrice: 0,
+      yearlyPrice: 0,
+      icon: Zap,
       popular: false,
-      color: "from-indigo-500 to-blue-500",
-      icon: Target,
       features: [
-        { text: "Daily & Weekly Planning", included: true },
-        { text: "Assignment Tracker", included: true },
-        { text: "Basic Progress Dashboard", included: true },
-        { text: "Mobile & Web Access", included: true },
-        { text: "Email Reminders", included: true },
-        { text: "PDF Summary Reports", included: false },
-        { text: "AI Study Recommendations", included: false },
-        { text: "Priority Support", included: false },
+        { text: "Up to 3 subjects", included: true },
+        { text: "Basic task management", included: true },
+        { text: "Calendar view", included: true },
+        { text: "Mobile app access", included: true },
+        { text: "Email reminders", included: true },
+        { text: "Advanced analytics", included: false },
+        { text: "AI study recommendations", included: false },
+        { text: "Priority support", included: false },
+        { text: "Group study rooms", included: false },
+        { text: "Custom integrations", included: false },
       ],
-      cta: "Start Basic Plan",
+      cta: "Get Started Free",
+      ctaStyle: "outline"
     },
     {
-      name: "Pro Plan",
-      tagline: "Most Popular - Full Features",
-      price: 3000,
-      period: isAnnual ? "/year" : "/month",
-      description: "Advanced tools for maximum productivity",
-      popular: true,
-      color: "from-purple-500 to-pink-500",
-      icon: Crown,
+      name: "Basic",
+      description: "For serious students",
+      monthlyPrice: 1500,
+      yearlyPrice: 14400,
+      icon: Sparkles,
+      popular: false,
       features: [
-        { text: "Everything in Basic Plan", included: true },
-        { text: "PDF Summary Reports", included: true },
-        { text: "AI Study Recommendations", included: true },
-        { text: "Smart Time Optimization", included: true },
-        { text: "Advanced Analytics", included: true },
-        { text: "Export to Google Calendar", included: true },
-        { text: "Priority Email Support", included: true },
-        { text: "Study Group Collaboration", included: true },
+        { text: "Unlimited subjects", included: true },
+        { text: "Advanced task management", included: true },
+        { text: "Calendar & Kanban views", included: true },
+        { text: "Mobile & desktop apps", included: true },
+        { text: "Smart reminders", included: true },
+        { text: "Basic analytics", included: true },
+        { text: "AI study recommendations", included: false },
+        { text: "Priority support", included: false },
+        { text: "Group study rooms", included: false },
+        { text: "Custom integrations", included: false },
       ],
-      cta: "Get Pro Plan",
+      cta: "Start Basic Plan",
+      ctaStyle: "primary"
     },
+    {
+      name: "Pro",
+      description: "Unlock your full potential",
+      monthlyPrice: 3000,
+      yearlyPrice: 28800,
+      icon: Crown,
+      popular: true,
+      features: [
+        { text: "Everything in Basic", included: true },
+        { text: "Unlimited subjects & tasks", included: true },
+        { text: "All views (Calendar, Kanban, List)", included: true },
+        { text: "All platforms + offline mode", included: true },
+        { text: "AI-powered smart reminders", included: true },
+        { text: "Advanced analytics & insights", included: true },
+        { text: "Personalized AI study coach", included: true },
+        { text: "24/7 Priority support", included: true },
+        { text: "Unlimited group study rooms", included: true },
+        { text: "Canvas, Google Calendar sync", included: true },
+      ],
+      cta: "Go Pro",
+      ctaStyle: "gradient"
+    }
   ];
 
-  const savings = [
-    "Save up to ₦18,000 yearly with Pro",
-    "Cancel anytime, no questions asked",
-    "30-day money-back guarantee",
-    "Trusted by 500+ students",
-  ];
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-NG').format(price);
+  };
 
   return (
-    <section id="pricing" className="relative py-24 bg-black overflow-hidden">
-      {/* Background Effects */}
+    <section 
+      id="pricing" 
+      ref={sectionRef}
+      className="relative py-24 lg:py-32 bg-white overflow-hidden"
+    >
+      {/* Subtle background */}
       <div className="absolute inset-0">
-        {/* Star Field */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-black to-black" />
-        
-        {/* Floating Particles */}
-        <div className="absolute inset-0">
-          {Array.from({ length: 40 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-[2px] h-[2px] bg-white rounded-full animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                opacity: Math.random() * 0.7 + 0.3,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Nebula Effects */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        
-        {/* Geometric Grid */}
-        <div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, #4f46e5 1px, transparent 1px),
-              linear-gradient(to bottom, #4f46e5 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px'
-          }}
-        />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-100/50 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-100/50 rounded-full blur-[120px]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-900 to-black border border-gray-800 px-4 py-2 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.3)] mb-6">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <span className="font-medium text-gray-300">Simple & Affordable Pricing</span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className={`max-w-3xl mx-auto text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 border border-purple-100 mb-6">
+            <Shield className="w-4 h-4 text-purple-600" />
+            <span className="text-sm font-medium text-purple-700">Simple Pricing</span>
           </div>
           
-          <h2 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
-            <span className="text-white">Invest in Your</span>
-            <span className="block mt-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Academic Success
-            </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+            Choose Your Plan,<br />
+            <span className="text-purple-600">Start Excelling</span>
           </h2>
           
-          <p className="font-sans text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12">
-            Choose the perfect plan for your needs. Both plans include our core features,
-            with Pro adding powerful AI tools for maximum productivity.
+          <p className="text-lg text-gray-600 mb-10">
+            Affordable plans designed for students. No hidden fees, cancel anytime.
           </p>
 
-          {/* Toggle Switch - Annual vs Monthly */}
-          <div className="inline-flex items-center gap-4 bg-gray-900/50 backdrop-blur-sm rounded-2xl p-2 border border-gray-800">
-            <span className={`px-6 py-2 rounded-xl text-sm font-medium transition-all ${!isAnnual ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' : 'text-gray-400'}`}>
-              Monthly Billing
-            </span>
+          {/* Billing Toggle */}
+          <div className="inline-flex items-center gap-2 p-1.5 rounded-full bg-gray-100 border border-gray-200">
             <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="relative w-14 h-8 bg-gray-800 rounded-full p-1 transition-all duration-300"
+              onClick={() => setIsYearly(false)}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                !isYearly 
+                  ? 'bg-white text-gray-900 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
             >
-              <div className={`w-6 h-6 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-transform duration-300 ${isAnnual ? 'transform translate-x-6' : ''}`} />
+              Monthly
             </button>
-            <div className="flex items-center gap-2">
-              <span className={`px-6 py-2 rounded-xl text-sm font-medium transition-all ${isAnnual ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' : 'text-gray-400'}`}>
-                Annual Billing
+            <button
+              onClick={() => setIsYearly(true)}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                isYearly 
+                  ? 'bg-white text-gray-900 shadow-sm' 
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Yearly
+              <span className="px-2 py-0.5 text-[10px] font-bold bg-green-500 text-white rounded-full">
+                SAVE 20%
               </span>
-              <div className="px-2 py-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg text-xs font-bold text-white">
-                Save 20%
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Price Comparison Banner */}
-        <div className="mb-12">
-          <div className="bg-gradient-to-r from-indigo-900/30 via-purple-900/20 to-pink-900/30 rounded-2xl p-6 border border-gray-800">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                  <Gift className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="font-heading text-xl font-bold text-white">Unbelievable Value</h4>
-                  <p className="text-gray-400">Less than the cost of a textbook</p>
-                </div>
-              </div>
-              <div className="text-center md:text-right">
-                <div className="text-4xl font-bold text-white">
-                  ₦{isAnnual ? '18,000' : '3,000'}
-                  <span className="text-lg text-gray-400"> /year with Pro</span>
-                </div>
-                <p className="text-emerald-400 text-sm font-medium mt-1">
-                  That's just ₦{isAnnual ? '50' : '100'} per day for academic excellence!
-                </p>
-              </div>
-            </div>
+            </button>
           </div>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {plans.map((plan, index) => {
-            const Icon = plan.icon;
-            const displayPrice = isAnnual ? Math.floor(plan.price * 12 * 0.8) : plan.price;
-            const monthlyEquivalent = isAnnual ? Math.floor(displayPrice / 12) : displayPrice;
-            
-            return (
-              <div key={index} className={`relative ${plan.popular ? 'md:-mt-6' : ''}`}>
-                {/* Popular Badge */}
-                {plan.popular && (
-                  <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-20">
-                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
-                      <Star className="w-4 h-4 fill-white" />
-                      <span className="font-heading font-bold text-sm">MOST POPULAR</span>
-                    </div>
+        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {plans.map((plan, index) => (
+            <div
+              key={plan.name}
+              className={`relative group transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              {/* Popular Badge */}
+              {plan.popular && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                  <div className="px-4 py-1.5 bg-purple-600 rounded-full text-white text-sm font-semibold shadow-lg shadow-purple-200 flex items-center gap-1.5">
+                    <Crown className="w-4 h-4" />
+                    Most Popular
                   </div>
-                )}
+                </div>
+              )}
+
+              <div className={`relative h-full rounded-2xl p-8 transition-all duration-300 ${
+                plan.popular 
+                  ? 'bg-white border-2 border-purple-200 shadow-xl shadow-purple-100/50 lg:scale-105' 
+                  : 'bg-gray-50 border border-gray-100 hover:border-gray-200 hover:shadow-lg hover:bg-white'
+              }`}>
                 
-                {/* Card Container */}
-                <div className={`relative group ${plan.popular ? 'h-full' : ''}`}>
-                  {/* Glowing Border */}
-                  <div className={`absolute -inset-0.5 bg-gradient-to-r ${plan.color} rounded-3xl blur-xl opacity-60 group-hover:opacity-80 transition duration-500`} />
+                {/* Plan Header */}
+                <div className="mb-6">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
+                    plan.popular 
+                      ? 'bg-purple-600' 
+                      : 'bg-white border border-gray-200'
+                  }`}>
+                    <plan.icon className={`w-6 h-6 ${plan.popular ? 'text-white' : 'text-purple-600'}`} />
+                  </div>
                   
-                  <div className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-3xl p-8 border border-gray-800/50 backdrop-blur-sm h-full">
-                    {/* Plan Header */}
-                    <div className="mb-8">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className={`w-12 h-12 bg-gradient-to-br ${plan.color} rounded-xl flex items-center justify-center shadow-lg`}>
-                              <Icon className="w-6 h-6 text-white" />
-                            </div>
-                            <div>
-                              <h3 className="font-heading text-2xl font-bold text-white">{plan.name}</h3>
-                              <p className="text-gray-400 text-sm">{plan.tagline}</p>
-                            </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-1">{plan.name}</h3>
+                  <p className="text-gray-500 text-sm">{plan.description}</p>
+                </div>
+
+                {/* Price */}
+                <div className="mb-6">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-xl text-gray-500">₦</span>
+                    <span className="text-4xl font-bold text-gray-900 tracking-tight">
+                      {formatPrice(isYearly ? plan.yearlyPrice : plan.monthlyPrice)}
+                    </span>
+                    <span className="text-gray-500 ml-1 text-sm">
+                      {plan.monthlyPrice === 0 ? 'Free' : `/${isYearly ? 'year' : 'month'}`}
+                    </span>
+                  </div>
+                  
+                  {isYearly && plan.monthlyPrice > 0 && (
+                    <p className="mt-2 text-sm text-green-600 flex items-center gap-1">
+                      <Gift className="w-4 h-4" />
+                      Save ₦{formatPrice((plan.monthlyPrice * 12) - plan.yearlyPrice)} yearly
+                    </p>
+                  )}
+                </div>
+
+                {/* CTA Button */}
+                <Link
+                  href="/signup"
+                  className={`block w-full py-3 px-6 rounded-xl font-semibold text-center transition-all duration-200 mb-6 ${
+                    plan.ctaStyle === 'gradient'
+                      ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-lg shadow-purple-200'
+                      : plan.ctaStyle === 'primary'
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    {plan.cta}
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+
+                {/* Features List */}
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    What's included
+                  </p>
+                  <ul className="space-y-2.5">
+                    {plan.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        {feature.included ? (
+                          <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <Check className="w-3 h-3 text-green-600" />
                           </div>
-                        </div>
-                        {plan.popular && (
-                          <div className="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full border border-purple-500/30">
-                            <span className="text-sm font-medium text-purple-300">BEST VALUE</span>
+                        ) : (
+                          <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <X className="w-3 h-3 text-gray-400" />
                           </div>
                         )}
-                      </div>
-                      
-                      {/* Price Display - Made BOLD and Prominent */}
-                      <div className="text-center mb-6">
-                        <div className="flex items-baseline justify-center gap-1">
-                          <span className="text-gray-400 text-lg font-medium">₦</span>
-                          <span className="text-7xl md:text-8xl font-black text-white leading-none tracking-tight">
-                            {displayPrice.toLocaleString()}
-                          </span>
-                        </div>
-                        <div className="flex flex-col items-center gap-1 mt-2">
-                          <span className="text-gray-400">{plan.period}</span>
-                          {isAnnual && (
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm text-gray-500 line-through">
-                                ₦{(plan.price * 12).toLocaleString()}
-                              </span>
-                              <span className="px-2 py-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded text-xs font-bold text-white">
-                                Save ₦{(plan.price * 12 * 0.2).toLocaleString()}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Cost Breakdown - Emphasizing Affordability */}
-                      <div className="bg-gray-900/50 rounded-xl p-4 mb-6">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-white mb-1">
-                            That's just ₦{monthlyEquivalent.toLocaleString()} per month!
-                          </div>
-                          <p className="text-gray-400 text-sm">
-                            Less than ₦{(Math.ceil(monthlyEquivalent / 30)).toLocaleString()} per day
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Features List */}
-                    <div className="mb-8">
-                      <h4 className="font-heading text-lg font-bold text-white mb-4 flex items-center gap-2">
-                        <Check className="w-5 h-5 text-emerald-500" />
-                        What's included:
-                      </h4>
-                      <ul className="space-y-3">
-                        {plan.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-center gap-3">
-                            <div className={`w-5 h-5 rounded flex items-center justify-center ${feature.included ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : 'bg-gray-800 border border-gray-700'}`}>
-                              {feature.included && <Check className="w-3 h-3 text-white" />}
-                            </div>
-                            <span className={`font-sans ${feature.included ? 'text-gray-300' : 'text-gray-600'}`}>
-                              {feature.text}
-                            </span>
-                            {feature.text.includes("AI") && (
-                              <span className="px-2 py-0.5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 text-xs font-bold rounded">
-                                AI POWERED
-                              </span>
-                            )}
-                            {feature.text.includes("PDF") && (
-                              <span className="px-2 py-0.5 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 text-xs font-bold rounded">
-                                NEW
-                              </span>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    {/* CTA Button */}
-                    <div className="mt-auto">
-                      <button className={`w-full py-4 rounded-xl font-heading font-bold text-lg transition-all duration-300 ${plan.popular 
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)]' 
-                        : 'bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700 hover:border-indigo-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)]'
-                      } text-white flex items-center justify-center gap-3 group`}>
-                        {plan.cta}
-                        <Rocket className={`w-5 h-5 ${plan.popular ? 'text-pink-300' : 'text-indigo-300'} group-hover:translate-x-1 transition-transform`} />
-                      </button>
-                      
-                      {/* Guarantee Text */}
-                      <p className="text-center text-gray-500 text-sm mt-4">
-                        💰 30-day money-back guarantee • No credit card required
-                      </p>
-                    </div>
-                  </div>
+                        <span className={`text-sm ${feature.included ? 'text-gray-700' : 'text-gray-400'}`}>
+                          {feature.text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
-        {/* Value Comparison */}
-        <div className="mb-16">
-          <div className="bg-gradient-to-br from-gray-900/80 to-black/80 rounded-3xl border border-gray-800 p-8">
-            <div className="text-center mb-8">
-              <h3 className="font-heading text-3xl font-bold text-white mb-4">
-                See the <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Unbeatable Value</span>
-              </h3>
-              <p className="text-gray-400">Compare what ₦3,000 gets you elsewhere</p>
-            </div>
-            
-            <div className="grid md:grid-cols-4 gap-6">
-              {[
-                { 
-                  item: "One Textbook", 
-                  price: "₦5,000+", 
-                  icon: "📚",
-                  comparison: "Pro Plan gives you AI tools for 2 months!"
-                },
-                { 
-                  item: "Coffee Shop Study", 
-                  price: "₦2,500", 
-                  icon: "☕",
-                  comparison: "One week of coffee vs a month of planning"
-                },
-                { 
-                  item: "Movie Tickets", 
-                  price: "₦3,500", 
-                  icon: "🎬",
-                  comparison: "3 hours entertainment vs 30 days productivity"
-                },
-                { 
-                  item: "Planly Pro", 
-                  price: "₦3,000", 
-                  icon: "🚀",
-                  comparison: "Full AI features for academic excellence"
-                },
-              ].map((comp, idx) => (
-                <div key={idx} className="text-center p-6 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-indigo-500/30 transition-all">
-                  <div className="text-4xl mb-4">{comp.icon}</div>
-                  <h4 className="font-heading font-bold text-white mb-2">{comp.item}</h4>
-                  <div className="text-2xl font-black text-white mb-3">{comp.price}</div>
-                  <p className="text-gray-400 text-sm">{comp.comparison}</p>
-                </div>
-              ))}
+        {/* Trust Badges */}
+        <div className={`mt-16 flex flex-wrap items-center justify-center gap-8 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="flex items-center gap-2 text-gray-500">
+            <Shield className="w-5 h-5" />
+            <span className="text-sm">Secure Payment</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-500">
+            <Clock className="w-5 h-5" />
+            <span className="text-sm">Instant Access</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-500">
+            <Check className="w-5 h-5" />
+            <span className="text-sm">Cancel Anytime</span>
+          </div>
+        </div>
+
+        {/* FAQ Teaser */}
+        <div className={`mt-20 max-w-2xl mx-auto transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="p-8 rounded-2xl bg-gray-50 border border-gray-100 text-center">
+            <HelpCircle className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Have Questions?</h3>
+            <p className="text-gray-600 mb-6">
+              Not sure which plan is right for you? Our team is here to help you choose.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/contact"
+                className="px-6 py-3 rounded-xl bg-white text-gray-900 font-medium border border-gray-200 hover:border-gray-300 transition-colors"
+              >
+                Contact Sales
+              </Link>
+              <Link
+                href="/faq"
+                className="px-6 py-3 rounded-xl text-gray-600 hover:text-gray-900 font-medium hover:bg-gray-100 transition-colors"
+              >
+                View FAQ
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Savings & Guarantees */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-gradient-to-br from-indigo-900/20 to-black rounded-2xl border border-indigo-800/30 p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="font-heading text-xl font-bold text-white">Yearly Savings</h4>
-                <p className="text-gray-400">Switch to annual billing</p>
-              </div>
-            </div>
-            <ul className="space-y-4">
-              <li className="flex items-center justify-between">
-                <span className="text-gray-300">Basic Plan (Annual)</span>
-                <span className="text-2xl font-black text-white">₦14,400</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span className="text-gray-300">Pro Plan (Annual)</span>
-                <span className="text-2xl font-black text-emerald-400">₦28,800</span>
-              </li>
-              <li className="pt-4 border-t border-gray-800">
-                <div className="text-center">
-                  <div className="text-lg text-gray-400">Total Yearly Savings</div>
-                  <div className="text-3xl font-black text-emerald-400">₦7,200</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          
-          <div className="bg-gradient-to-br from-emerald-900/20 to-black rounded-2xl border border-emerald-800/30 p-8">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-cyan-600 rounded-xl flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="font-heading text-xl font-bold text-white">No-Risk Guarantee</h4>
-                <p className="text-gray-400">Your success is guaranteed</p>
-              </div>
-            </div>
-            <ul className="space-y-4">
-              {savings.map((item, idx) => (
-                <li key={idx} className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full flex items-center justify-center">
-                    <Check className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="text-gray-300">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Final CTA */}
-        <div className="text-center">
-          <div className="relative inline-block">
-            <div className="absolute -inset-6 bg-gradient-to-r from-indigo-500/30 to-purple-500/30 rounded-full blur-3xl" />
-            <button className="relative group px-16 py-5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-heading font-extrabold text-xl rounded-2xl hover:shadow-[0_0_60px_rgba(168,85,247,0.6)] hover:-translate-y-1.5 transition-all duration-500 flex items-center gap-4 mx-auto">
-              <Brain className="w-6 h-6 text-white" />
-              <span>GET STARTED FOR JUST ₦1,500/MONTH</span>
-              <div className="group-hover:translate-x-2 transition-transform">
-                <Zap className="w-6 h-6 text-yellow-400" />
-              </div>
-            </button>
-          </div>
-          
-          {/* Final Price Emphasis */}
-          <div className="mt-8">
-            <div className="bg-gradient-to-r from-gray-900 to-black border border-gray-800 rounded-2xl p-6 inline-block">
-              <div className="text-center">
-                <div className="text-gray-400 text-sm mb-2">STARTING FROM JUST</div>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-gray-400 text-xl">₦</span>
-                  <span className="text-5xl md:text-6xl font-black text-white">1,500</span>
-                  <span className="text-gray-400 text-lg">/month</span>
-                </div>
-                <div className="text-emerald-400 text-sm font-bold mt-2">
-                  Cancel anytime • No hidden fees
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <p className="font-sans text-gray-400 mt-8 max-w-2xl mx-auto">
-            Join 500+ students who have transformed their academic life with Planly. 
-            Your success is just ₦1,500 away.
+        {/* Money Back Guarantee */}
+        <div className={`mt-8 text-center transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <p className="text-gray-500 text-sm flex items-center justify-center gap-2">
+            <Shield className="w-4 h-4 text-green-600" />
+            30-day money-back guarantee. No questions asked.
           </p>
         </div>
+
       </div>
     </section>
   );
-};
-
-export default Pricing;
+}
