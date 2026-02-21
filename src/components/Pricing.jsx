@@ -84,11 +84,11 @@ export default function Pricing() {
         { text: "All views (Calendar, Kanban, List)", included: true },
         { text: "All platforms + offline mode", included: true },
         { text: "AI-powered smart reminders", included: true },
+        { text: "AI PDF summary", included: true },
         { text: "Advanced analytics & insights", included: true },
         { text: "Personalized AI study coach", included: true },
         { text: "24/7 Priority support", included: true },
         { text: "Unlimited group study rooms", included: true },
-        { text: "Canvas, Google Calendar sync", included: true },
       ],
       cta: "Go Pro",
       ctaStyle: "gradient"
