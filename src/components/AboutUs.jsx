@@ -103,7 +103,7 @@ export default function About() {
     {
       icon: Users,
       title: "Community Driven",
-      description: "Built by students, for students. Our roadmap is shaped by real feedback from our community of over 50,000 active users.",
+      description: "Built by students, for students. Our roadmap is shaped by real feedback from our community of over 5,000 active users.",
       color: "bg-blue-50 text-blue-600"
     },
     {

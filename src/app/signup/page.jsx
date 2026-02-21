@@ -43,7 +43,7 @@ export default function SignupPage() {
                   Start your free trial
                 </h1>
                 <p className="text-gray-600">
-                  Join 50,000+ students already organizing their academic life with Planly.
+                  Join 5,000+ students already organizing their academic life with Planly.
                 </p>
               </div>
 
